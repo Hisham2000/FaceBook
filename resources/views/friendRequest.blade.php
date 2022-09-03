@@ -16,7 +16,7 @@
             </form>
         </div>
         <div class="center">
-            <a class="house"><img  src="{{URL::asset('assets/Images/House.png') }}" alt="Home icon" style="width: 100%;height: 100%;"></a>
+            <a href="{{ route('posts.index') }}" class="house"><img  src="{{URL::asset('assets/Images/House.png') }}" alt="Home icon" style="width: 100%;height: 100%;"></a>
             <a class="friends" ><img  src="{{URL::asset('assets/Images/friends.png') }}" alt="friends icon" style="width: 100%;height: 100%;"></a>
         </div>
         <div class="right">
@@ -37,27 +37,24 @@
                 </form>
         </div>
     </header>
-    @foreach ($data as $value )
-    @if ($value->id != Auth::user()->id)
-    <a href="{{ route('user.show',$value->id) }}">
+    @foreach ($friends as $friend )
+    <a href="{{ route('user.show',$friend['id']) }}">
         <div class="userSearch">
             <img 
-                        @if(empty($value->image))
+                        @if(empty($friend['image']))
                     
                         src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                         @else
-                            src="{{ URL::asset('assets/User_image/'.$value->image )}}"
+                            src="{{ URL::asset('assets/User_image/'.$friend['image'] )}}"
                         @endif
                             alt="Profile picture" style="width: 30%;height: 70%;border: 2px solid white; border-radius: 50%">
-            <p class="name">{{$value->name}}</p> <br>
-            <p class="data"> Email : {{$value->email}}</p> <br>
-            <p class="data"> Porn at : {{$value->bdate}} </p> <br>
-            <p class="data"> Gender: {{$value->gender}}</p> <br>
+            <p class="name">{{$friend['name']}}</p> <br>
+            <p class="data"> Email : {{$friend['email']}}</p> <br>
+            <p class="data"> Porn at : {{$friend['bdate']}} </p> <br>
+            <p class="data"> Gender: {{$friend['gender']}}</p> <br>
         </div>
-    </a>
-    @endif
-    
+    </a>    
     @endforeach
 </body>
 </html>

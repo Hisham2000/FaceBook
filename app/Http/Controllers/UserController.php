@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\post;
+use App\Models\relation;
 
 class UserController extends Controller
 {
@@ -46,6 +48,24 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        $user = User::all()->where('id',$id)->first();
+        $user = json_decode(json_encode($user),true);
+
+        $posts = Post::all()->where('user_id',$id);
+        $posts = json_decode(json_encode($posts),true);
+
+        $relation = Relation::all()->where('user_id',Auth::user()->id)
+        ->where('friend_id',$id);
+        
+        $relation = json_decode(json_encode($relation, true));
+        if(empty($relation)) $relation = false;
+        else $relation = true;
+
+        return view('friends',[
+            'posts' => $posts,
+            'user' => $user,
+            'relation' => $relation,
+        ]);
     }
 
     /**
@@ -60,9 +80,6 @@ class UserController extends Controller
         $data = array();
         $jdata = User::all()->where('id',$userId);
         $data = json_decode($jdata);
-        // echo "<pre>";
-        // print_r($data);
-        // echo "</pre>";
         return view('edit',['data'=>$data]);
     }
 
@@ -74,16 +91,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private function saveImage($request){
-        $request->validate([
-            'image' => 'mimes:jpeg,bmp,png,jpg',
-        ]);     
-        $cover = $request->file('image');
-        $extension = $cover->getClientOriginalExtension();
-        $imgName = Auth::user()->id.'.'.$extension;
-        $request->image->move(public_path('assets/User_image'), $imgName);
-        return $imgName;
-    }
+    
 
     public function update(Request $request, $userId)
     {
@@ -105,6 +113,17 @@ class UserController extends Controller
             ]);
         }
         return redirect()->route('posts.index');
+    }
+
+    private function saveImage($request){
+        $request->validate([
+            'image' => 'mimes:jpeg,bmp,png,jpg',
+        ]);     
+        $cover = $request->file('image');
+        $extension = $cover->getClientOriginalExtension();
+        $imgName = Auth::user()->id.'.'.$extension;
+        $request->image->move(public_path('assets/User_image'), $imgName);
+        return $imgName;
     }
 
     /**

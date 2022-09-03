@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\relation;
 use Illuminate\Http\Request;
 
@@ -14,7 +14,16 @@ class RelationController extends Controller
      */
     public function index()
     {
-        //
+        $friends = Relation::join('users','users.id','=','relations.user_id')
+        ->select('users.id','users.name','users.email','users.bdate','users.gender','users.image')
+        ->where('friend_id',Auth::user()->id)->get();
+        
+        // $friends = Relation::all()->where('friend_id',Auth::user()->id)
+        // ->where('request',1);
+
+        $friends = json_decode(json_encode($friends), true);        
+
+        return view('friendRequest',['friends' => $friends]);
     }
 
     /**
@@ -35,7 +44,12 @@ class RelationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Relation::create([
+            'user_id' => $request->user_id,
+            'friend_id' => $request->friend,
+            'request' => 1,
+        ]);
+        return redirect()->route('user.show',$request->user_id);
     }
 
     /**

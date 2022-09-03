@@ -16,8 +16,8 @@
             </form>
         </div>
         <div class="center">
-            <a class="house"><img  src="{{URL::asset('assets/Images/House.png') }}" alt="Home icon" style="width: 100%;height: 100%;"></a>
-            <a href="{{ route('relation.index') }}" class="friends" ><img  src="{{URL::asset('assets/Images/friends.png') }}" alt="friends icon" style="width: 100%;height: 100%;"></a>
+            <a class="house" href="{{ route('posts.index') }}"><img  src="{{URL::asset('assets/Images/House.png') }}" alt="Home icon" style="width: 100%;height: 100%;"></a>
+            <a class="friends" ><img  src="{{URL::asset('assets/Images/friends.png') }}" alt="friends icon" style="width: 100%;height: 100%;"></a>
         </div>
         <div class="right">
             <a>
@@ -27,7 +27,7 @@
                     src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                     @else
-                        src="{{URL::asset('assets/User_image/'.Auth::user()->image)}}"
+                        src="{{URL::asset('assets/User_image/'.Auth::user()->image )}}"
                     @endif
                         alt="Profile picture" style="width: 100%;height: 100%;border: 2px solid white; border-radius: 50%">
                 </a>
@@ -44,58 +44,55 @@
 
     <div class="userData">
         <img 
-                    @if(Auth::user()->image == null)
+                    @if($user['image'] == null)
                     
                     src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                     @else
-                        src="{{URL::asset('assets/User_image/'.Auth::user()->image)}}"
+                        src="{{URL::asset('assets/User_image/'.$user['image'])}}"
                     @endif
                         alt="Profile picture" style="width: 20%;height: 100%; border-radius:50%">
 
-        <p>{{Auth::user()->name}}</p>
-        <a href="{{route('user.edit',Auth::user()->id)}}"><img src="{{URL::asset('assets/Images/edit.png')}}" class="userEditIcon"></a>
-    </div>
-
-    <div class="create">
-        <h1>Create post</h1>
-        <form enctype="multipart/form-data" method="POST" action="{{route('posts.store')}}">
-            @csrf
-            @method('post')
-            <textarea required name="content" placeholder="What is in your Mind"></textarea>
-            <input name="image" type="file">
-            <input name="submit" type="submit" value="Create">
-        </form>
+        <p>{{$user['name']}}</p>
+        <a href="{{route('user.edit',$user['id'])}}"><img src="{{URL::asset('assets/Images/edit.png')}}" class="userEditIcon"></a>
+        @if ($relation == false)
+            <form method="POST" action="{{ route('relation.store') }}">
+                @csrf
+                @method('post')
+                <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                <input type="hidden" name="friend" value="{{$user['id']}}">
+                <input type="submit" value="Send friend Requset">
+            </form>
+        @endif
         
     </div>
 
-
-    @if($data != null)
+    @if(!empty($posts))
         <div class="posts">
             @php
-                $i = count($data);
+                $i = count($posts);
                 $j = 0;
             @endphp
         
-            @foreach ($data as $value)
+            @foreach ($posts as $value)
             <div class="postHead">
                 <img 
-                    @if(Auth::user()->image == null)
+                    @if($user["image"] == null)
                     
                     src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                     @else
-                        src="{{URL::asset('assets/User_image/'.Auth::user()->image)}}"
+                        src="{{URL::asset('assets/User_image/'.$user['image'])}}"
                     @endif
                         alt="Profile picture" style="width: 5%;height: 100%;border-radius:50%">
 
-                <p class="PostUser">{{Auth::user()->name}}</p>    
+                <p class="PostUser">{{$user["name"]}}</p>    
             </div>
             <p class="pData"> 
-                @php print_r($value->content);@endphp
+                @php print_r($value["content"]);@endphp
             </p>
             @php
-                $image = $value->image;
+                $image = $value["image"];
             @endphp
             @if ($image)
             <img src="{{ URL::asset('assets/Post_image/'.$image) }}" class="PostPhoto" >

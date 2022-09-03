@@ -181,7 +181,7 @@ input[type = "file"]{
 }
 
 .posts{
-    margin: auto;
+    margin: 20px auto;
     width: 70%;
     border: 2px solid wheat;
     border-radius: 20px;
@@ -210,6 +210,8 @@ input[type = "file"]{
 }
 
 .PostPhoto{
-    display: inline-block;
-    width: 100%;
+    display: block;
+    width: 50%;
+    margin:  auto;
+    border-radius: 10px;
 }

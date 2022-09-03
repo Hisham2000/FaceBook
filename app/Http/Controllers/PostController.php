@@ -18,10 +18,7 @@ class PostController extends Controller
         $userId = Auth::id();
         $data = array();
         $jdata = Post::all()->where('user_id',$userId);
-        $data = json_decode($jdata);
-        // echo "<pre>";
-        // print_r($data);
-        // echo "</pre>";
+        $data = (array) json_decode($jdata);
         return view('Profile',['data' =>array_reverse($data)]);
     }
 
