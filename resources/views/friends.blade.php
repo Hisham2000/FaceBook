@@ -16,8 +16,8 @@
             </form>
         </div>
         <div class="center">
-            <a class="house" href="{{ route('posts.index') }}"><img  src="{{URL::asset('assets/Images/House.png') }}" alt="Home icon" style="width: 100%;height: 100%;"></a>
-            <a class="friends" ><img  src="{{URL::asset('assets/Images/friends.png') }}" alt="friends icon" style="width: 100%;height: 100%;"></a>
+            <a href="{{route('posts.index')}}" class="house"><img  src="{{URL::asset('assets/Images/House.png') }}" alt="Home icon" style="width: 100%;height: 100%;"></a>
+            <a href="{{ route('relation.index') }}" class="friends" ><img  src="{{URL::asset('assets/Images/friends.png') }}" alt="friends icon" style="width: 100%;height: 100%;"></a>
         </div>
         <div class="right">
             <a>
@@ -27,7 +27,7 @@
                     src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                     @else
-                        src="{{URL::asset('assets/User_image/'.Auth::user()->image )}}"
+                        src="{{URL::asset('assets/User_image/'.Auth::user()->image)}}"
                     @endif
                         alt="Profile picture" style="width: 100%;height: 100%;border: 2px solid white; border-radius: 50%">
                 </a>
@@ -37,7 +37,6 @@
                 </form>
         </div>
     </header>
-
     <div class="cover">
         <img style="width: 100%;height: 100;">
     </div>

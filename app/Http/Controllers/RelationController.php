@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\relation;
+use Illuminate\Database\Eloquent\Relations\Relation as RelationsRelation;
 use Illuminate\Http\Request;
 
 class RelationController extends Controller
@@ -16,10 +17,8 @@ class RelationController extends Controller
     {
         $friends = Relation::join('users','users.id','=','relations.user_id')
         ->select('users.id','users.name','users.email','users.bdate','users.gender','users.image')
-        ->where('friend_id',Auth::user()->id)->get();
+        ->where('friend_id',Auth::user()->id)->where('request',0)->get();
         
-        // $friends = Relation::all()->where('friend_id',Auth::user()->id)
-        // ->where('request',1);
 
         $friends = json_decode(json_encode($friends), true);        
 
@@ -47,9 +46,9 @@ class RelationController extends Controller
         Relation::create([
             'user_id' => $request->user_id,
             'friend_id' => $request->friend,
-            'request' => 1,
+            'request' => 0,
         ]);
-        return redirect()->route('user.show',$request->user_id);
+        return redirect()->route('user.show',$request->friend);
     }
 
     /**
@@ -81,9 +80,11 @@ class RelationController extends Controller
      * @param  \App\Models\relation  $relation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, relation $relation)
+    public function update(Request $request,$id)
     {
-        //
+        $relation = Relation::query()->where('user_id',$id)->
+        where('friend_id',Auth::user()->id)->update(['request'=>1]);
+        return redirect()->route('relation.index');
     }
 
     /**
@@ -92,8 +93,10 @@ class RelationController extends Controller
      * @param  \App\Models\relation  $relation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(relation $relation)
+    public function destroy($id)
     {
-        //
+        $relation = Relation::query()->where('user_id',$id)->
+        where('friend_id',Auth::user()->id)->delete();
+        return redirect()->route('relation.index');
     }
 }

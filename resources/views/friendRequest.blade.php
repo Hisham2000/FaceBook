@@ -16,8 +16,8 @@
             </form>
         </div>
         <div class="center">
-            <a href="{{ route('posts.index') }}" class="house"><img  src="{{URL::asset('assets/Images/House.png') }}" alt="Home icon" style="width: 100%;height: 100%;"></a>
-            <a class="friends" ><img  src="{{URL::asset('assets/Images/friends.png') }}" alt="friends icon" style="width: 100%;height: 100%;"></a>
+            <a href="{{route('posts.index')}}" class="house"><img  src="{{URL::asset('assets/Images/House.png') }}" alt="Home icon" style="width: 100%;height: 100%;"></a>
+            <a href="{{ route('relation.index') }}" class="friends" ><img  src="{{URL::asset('assets/Images/friends.png') }}" alt="friends icon" style="width: 100%;height: 100%;"></a>
         </div>
         <div class="right">
             <a>
@@ -53,6 +53,16 @@
             <p class="data"> Email : {{$friend['email']}}</p> <br>
             <p class="data"> Porn at : {{$friend['bdate']}} </p> <br>
             <p class="data"> Gender: {{$friend['gender']}}</p> <br>
+            <form method="POST" action="{{route('relation.update',$friend['id'])}}">
+                @csrf
+                @method('PUT')
+                <input type="submit" value="Accept">
+            </form>
+            <form method="POST" action="{{route('relation.destroy',$friend['id'])}}">
+                @csrf
+                @method('DELETE')
+                <input type="submit" value="Reject">
+            </form>
         </div>
     </a>    
     @endforeach
