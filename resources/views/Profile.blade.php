@@ -16,7 +16,7 @@
             </form>
         </div>
         <div class="center">
-            <a href="{{route('posts.index')}}" class="house"><img  src="{{URL::asset('assets/Images/House.png') }}" alt="Home icon" style="width: 100%;height: 100%;"></a>
+            <a href="{{route('user.index')}}" class="house"><img  src="{{URL::asset('assets/Images/House.png') }}" alt="Home icon" style="width: 100%;height: 100%;"></a>
             <a href="{{ route('relation.index') }}" class="friends" ><img  src="{{URL::asset('assets/Images/friends.png') }}" alt="friends icon" style="width: 100%;height: 100%;"></a>
         </div>
         <div class="right">
@@ -90,6 +90,31 @@
                         alt="Profile picture" style="width: 5%;height: 100%;border-radius:50%">
 
                 <p class="PostUser">{{Auth::user()->name}}</p>    
+                <a href="{{route('posts.edit',$value->id)}}"><img src="{{URL::asset('assets/Images/edit.png')}}" class="userEditIcon"></a>
+                <form method="POST" action="{{route('posts.destroy',$value->id)}}">
+                    @csrf
+                    @method('Delete')
+                    <input style="width: 3%; float: right; " type="image" src="{{URL::asset('assets/Images/delete.png')}}">
+                </form>
+
+                @if ($value->isprivate == 0)
+                    <form method="POST" action="{{route('private')}}">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="id" value="{{$value->id}}">
+                        <input type="submit" value="Make Private">
+                    </form>
+                @else
+                    <form method="POST" action="{{route('public')}}">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="id" value="{{$value->id}}">
+                        <input type="submit" value="Make public">
+                    </form>
+                @endif
+
+
+                
             </div>
             <p class="pData"> 
                 @php print_r($value->content);@endphp

@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\post;
 use App\Models\relation;
-use Illuminate\Database\Eloquent\Relations\Relation as RelationsRelation;
-
+use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
     /**
@@ -18,6 +17,40 @@ class UserController extends Controller
      */
     public function index()
     {
+        // get all posts that makes public and the owner of the post with his data
+        $allData = DB::table('users')->
+        join('posts','posts.user_id', 'users.id')
+        ->where('posts.isprivate',0)
+        ->get();
+
+        $relation = Relation::all();
+
+        $allData = json_decode(json_encode($allData),true);
+        $relation = json_decode(json_encode($relation),true);
+
+        // match posts with friend data
+        for($j=0; $j<count($relation);$j++)
+        {
+            for($i=0 ; $i<count($allData);$i++)
+            {
+                if(($allData[$j]['id'] == $relation[$j]['user_id']
+                ||$allData[$j]['id'] == $relation[$j]['friend_id'])
+                && $relation[$j]['request']==1 )
+                {
+                    echo $allData[$j]['content']."<br>";
+                }
+            }
+        }
+        
+            
+
+        echo "<pre>";
+        print_r($allData);
+        echo "</pre>";
+
+        echo "<pre>";
+        print_r($relation);
+        echo "</pre>";
     }
 
     /**
@@ -52,7 +85,7 @@ class UserController extends Controller
         $user = User::all()->where('id',$id)->first();
         $user = json_decode(json_encode($user),true);
 
-        $posts = Post::all()->where('user_id',$id);
+        $posts = Post::all()->where('user_id',$id)->where('isprivate',0);
         $posts = json_decode(json_encode($posts),true);
 
         $relation = Relation::where(function($query){

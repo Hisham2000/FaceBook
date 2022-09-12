@@ -16,7 +16,7 @@
             </form>
         </div>
         <div class="center">
-            <a href="{{route('posts.index')}}" class="house"><img  src="{{URL::asset('assets/Images/House.png') }}" alt="Home icon" style="width: 100%;height: 100%;"></a>
+            <a href="{{route('user.index')}}" class="house"><img  src="{{URL::asset('assets/Images/House.png') }}" alt="Home icon" style="width: 100%;height: 100%;"></a>
             <a href="{{ route('relation.index') }}" class="friends" ><img  src="{{URL::asset('assets/Images/friends.png') }}" alt="friends icon" style="width: 100%;height: 100%;"></a>
         </div>
         <div class="right">
@@ -37,61 +37,52 @@
                 </form>
         </div>
     </header>
-    <div class="cover">
-        <img style="width: 100%;height: 100;">
-    </div>
 
-    <div class="userData">
-        <img 
-                    @if($user['image'] == null)
-                    
-                    src="{{URL::asset('assets/Images/profile-user.png') }}" 
-                            
-                    @else
-                        src="{{URL::asset('assets/User_image/'.$user['image'])}}"
-                    @endif
-                        alt="Profile picture" style="width: 20%;height: 100%; border-radius:50%">
 
-        <p>{{$user['name']}}</p>
-        {{-- <a href="{{route('user.edit',$user['id'])}}"><img src="{{URL::asset('assets/Images/edit.png')}}" class="userEditIcon"></a> --}}
-        @if ($relation == false)
-            <form method="POST" action="{{ route('relation.store') }}">
-                @csrf
-                @method('post')
-                <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                <input type="hidden" name="friend" value="{{$user['id']}}">
-                <input type="submit" value="Send friend Requset">
-            </form>
-        @endif
-        
-    </div>
-
-    @if(!empty($posts))
+    @if($data != null)
         <div class="posts">
             @php
-                $i = count($posts);
+                $i = count($data);
                 $j = 0;
             @endphp
         
-            @foreach ($posts as $value)
+            @foreach ($data as $value)
             <div class="postHead">
                 <img 
-                    @if($user["image"] == null)
+                    @if(Auth::user()->image == null)
                     
                     src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                     @else
-                        src="{{URL::asset('assets/User_image/'.$user['image'])}}"
+                        src="{{URL::asset('assets/User_image/'.Auth::user()->image)}}"
                     @endif
                         alt="Profile picture" style="width: 5%;height: 100%;border-radius:50%">
 
-                <p class="PostUser">{{$user["name"]}}</p>    
+                <p class="PostUser">{{Auth::user()->name}}</p>    
+                @if ($value->isprivate == 0)
+                    <form method="POST" action="{{route('private')}}">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="id" value="{{$value->id}}">
+                        <input type="submit" value="Make Private">
+                    </form>
+                @else
+                    <form method="POST" action="{{route('public')}}">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="id" value="{{$value->id}}">
+                        <input type="submit" value="Make public">
+                    </form>
+                @endif
+
+
+                
             </div>
             <p class="pData"> 
-                @php print_r($value["content"]);@endphp
+                @php print_r($value->content);@endphp
             </p>
             @php
-                $image = $value["image"];
+                $image = $value->image;
             @endphp
             @if ($image)
             <img src="{{ URL::asset('assets/Post_image/'.$image) }}" class="PostPhoto" >
