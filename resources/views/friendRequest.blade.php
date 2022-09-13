@@ -22,12 +22,12 @@
         <div class="right">
             <a>
                 <img 
-                    @if(Auth::user()->image == null)
+                    @if(Auth::user()->user_image == null)
                     
                     src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                     @else
-                        src="{{URL::asset('assets/User_image/'.Auth::user()->image)}}"
+                        src="{{URL::asset('assets/User_image/'.Auth::user()->user_image)}}"
                     @endif
                         alt="Profile picture" style="width: 100%;height: 100%;border: 2px solid white; border-radius: 50%">
                 </a>
@@ -41,12 +41,12 @@
     <a href="{{ route('user.show',$friend['id']) }}">
         <div class="userSearch">
             <img 
-                        @if(empty($friend['image']))
+                        @if(empty($friend['user_image']))
                     
                         src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                         @else
-                            src="{{ URL::asset('assets/User_image/'.$friend['image'] )}}"
+                            src="{{ URL::asset('assets/User_image/'.$friend['user_image'] )}}"
                         @endif
                             alt="Profile picture" style="width: 30%;height: 70%;border: 2px solid white; border-radius: 50%">
             <p class="name">{{$friend['name']}}</p> <br>

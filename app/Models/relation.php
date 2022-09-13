@@ -14,5 +14,6 @@ class relation extends Model
         'user_id',
         'friend_id',
         'request',
+        'sender',
     ];
 }

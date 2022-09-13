@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\post;
 use App\Models\relation;
 use Illuminate\Support\Facades\DB;
+use PhpParser\JsonDecoder;
+
 class UserController extends Controller
 {
     /**
@@ -17,40 +19,27 @@ class UserController extends Controller
      */
     public function index()
     {
-        // get all posts that makes public and the owner of the post with his data
         $allData = DB::table('users')->
-        join('posts','posts.user_id', 'users.id')
-        ->where('posts.isprivate',0)
-        ->get();
-
-        $relation = Relation::all();
-
+        join('relations','relations.user_id','users.id')->
+        join('posts','posts.user_id', 'users.id')->
+        where("posts.isprivate",0)->where("relations.request",1)->
+        get();
         $allData = json_decode(json_encode($allData),true);
-        $relation = json_decode(json_encode($relation),true);
 
-        // match posts with friend data
-        for($j=0; $j<count($relation);$j++)
+        $relatedPosts = array();
+
+        for($i = 0 ; $i<count($allData); $i++)
         {
-            for($i=0 ; $i<count($allData);$i++)
+            if($allData[$i]['friend_id'] == Auth::user()->id || $allData[$i]['user_id'] == Auth::user()->id)
             {
-                if(($allData[$j]['id'] == $relation[$j]['user_id']
-                ||$allData[$j]['id'] == $relation[$j]['friend_id'])
-                && $relation[$j]['request']==1 )
-                {
-                    echo $allData[$j]['content']."<br>";
-                }
+                array_push($relatedPosts,$allData[$i]);
             }
         }
-        
-            
+        // echo "<pre>";
+        // var_dump($relatedPosts);
+        // echo "</pre>";
 
-        echo "<pre>";
-        print_r($allData);
-        echo "</pre>";
-
-        echo "<pre>";
-        print_r($relation);
-        echo "</pre>";
+        return view('main',['posts'=>$relatedPosts]);
     }
 
     /**
@@ -140,7 +129,7 @@ class UserController extends Controller
 
             $user->name = $request->name;
             $user->email  = $request->email;
-            $user->image  = $imgName;
+            $user->user_image  = $imgName;
             $user->update();
         }
         else{

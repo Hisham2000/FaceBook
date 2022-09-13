@@ -22,12 +22,12 @@
         <div class="right">
             <a>
                 <img 
-                    @if(Auth::user()->image == null)
+                    @if(Auth::user()->user_image == null)
                     
                     src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                     @else
-                        src="{{URL::asset('assets/User_image/'.Auth::user()->image)}}"
+                        src="{{URL::asset('assets/User_image/'.Auth::user()->user_image)}}"
                     @endif
                         alt="Profile picture" style="width: 100%;height: 100%;border: 2px solid white; border-radius: 50%">
                 </a>
@@ -43,12 +43,12 @@
 
     <div class="userData">
         <img 
-                    @if($user['image'] == null)
+                    @if($user['user_image'] == null)
                     
                     src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                     @else
-                        src="{{URL::asset('assets/User_image/'.$user['image'])}}"
+                        src="{{URL::asset('assets/User_image/'.$user['user_image'])}}"
                     @endif
                         alt="Profile picture" style="width: 20%;height: 100%; border-radius:50%">
 
@@ -76,12 +76,12 @@
             @foreach ($posts as $value)
             <div class="postHead">
                 <img 
-                    @if($user["image"] == null)
+                    @if($user["user_image"] == null)
                     
                     src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                     @else
-                        src="{{URL::asset('assets/User_image/'.$user['image'])}}"
+                        src="{{URL::asset('assets/User_image/'.$user['user_image'])}}"
                     @endif
                         alt="Profile picture" style="width: 5%;height: 100%;border-radius:50%">
 
@@ -91,7 +91,7 @@
                 @php print_r($value["content"]);@endphp
             </p>
             @php
-                $image = $value["image"];
+                $image = $value["post_image"];
             @endphp
             @if ($image)
             <img src="{{ URL::asset('assets/Post_image/'.$image) }}" class="PostPhoto" >

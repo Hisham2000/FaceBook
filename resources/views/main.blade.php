@@ -22,12 +22,12 @@
         <div class="right">
             <a>
                 <img 
-                    @if(Auth::user()->image == null)
+                    @if(Auth::user()->user_image == null)
                     
                     src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                     @else
-                        src="{{URL::asset('assets/User_image/'.Auth::user()->image)}}"
+                        src="{{URL::asset('assets/User_image/'.Auth::user()->user_image)}}"
                     @endif
                         alt="Profile picture" style="width: 100%;height: 100%;border: 2px solid white; border-radius: 50%">
                 </a>
@@ -38,62 +38,34 @@
         </div>
     </header>
 
-
-    @if($data != null)
         <div class="posts">
-            @php
-                $i = count($data);
-                $j = 0;
-            @endphp
-        
-            @foreach ($data as $value)
+
+            @foreach ($posts as $post)
             <div class="postHead">
                 <img 
-                    @if(Auth::user()->image == null)
+                    @if($post['user_image'] == null)
                     
                     src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                     @else
-                        src="{{URL::asset('assets/User_image/'.Auth::user()->image)}}"
+                        src="{{URL::asset('assets/User_image/'.$post['user_image'])}}"
                     @endif
                         alt="Profile picture" style="width: 5%;height: 100%;border-radius:50%">
 
-                <p class="PostUser">{{Auth::user()->name}}</p>    
-                @if ($value->isprivate == 0)
-                    <form method="POST" action="{{route('private')}}">
-                        @csrf
-                        @method('PUT')
-                        <input type="hidden" name="id" value="{{$value->id}}">
-                        <input type="submit" value="Make Private">
-                    </form>
-                @else
-                    <form method="POST" action="{{route('public')}}">
-                        @csrf
-                        @method('PUT')
-                        <input type="hidden" name="id" value="{{$value->id}}">
-                        <input type="submit" value="Make public">
-                    </form>
-                @endif
-
-
+                <p class="PostUser">{{$post['name']}}</p>    
                 
             </div>
             <p class="pData"> 
-                @php print_r($value->content);@endphp
+                @php print_r($post['content']);@endphp
             </p>
             @php
-                $image = $value->image;
+                $image = $post['post_image'];
             @endphp
             @if ($image)
             <img src="{{ URL::asset('assets/Post_image/'.$image) }}" class="PostPhoto" >
             @endif
-            @php $j++; @endphp
-                @if ($j != $i)
-                    <hr>
-                @endif
-            @endforeach
-
-        </div>
-    @endif
+            @if(next($posts)) <hr> @endif
+        @endforeach
+    </div>
 </body>
 </html>

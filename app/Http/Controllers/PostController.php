@@ -45,11 +45,13 @@ class PostController extends Controller
     {
         if ($request->image != null) {
             $imgName = $this->saveImage($request);
-            Post::create([
+            // echo $imgName;
+            $data = Post::create([
                 'content' => $request->content,
                 'user_id' => Auth::user()->id,
-                'image' => $imgName,
+                'post_image' => $imgName,
             ]);
+            echo $data;
         }
         else{
             Post::create([
@@ -129,7 +131,7 @@ class PostController extends Controller
             $imgName = $this->saveImage($request);
 
             $post->content = $request->content;
-            $post->image  = $imgName;
+            $post->post_image  = $imgName;
             $post->update();
         }
         else{

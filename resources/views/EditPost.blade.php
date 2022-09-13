@@ -14,8 +14,8 @@
             <textarea required name="content" placeholder="What is in your Mind">
                 {{$post['content']}}
             </textarea>
-            @if ($post['image'] !=null)
-            <img src="{{ URL::asset('assets/Post_image/'.$post['image']) }}" style="width: 50%; margin:auto; display: block; border-radius: 5%">
+            @if ($post['post_image'] !=null)
+            <img src="{{ URL::asset('assets/Post_image/'.$post['post_image']) }}" style="width: 50%; margin:auto; display: block; border-radius: 5%">
             @endif
             <input name="image" type="file">
             <input name="submit" type="submit" value="Create">
