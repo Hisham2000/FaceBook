@@ -22,12 +22,12 @@
         <div class="right">
             <a>
                 <img 
-                    @if(Auth::user()->image == null)
+                    @if(Auth::user()->user_image == null)
                     
                     src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                     @else
-                        src="{{URL::asset('assets/User_image/'.Auth::user()->image)}}"
+                        src="{{URL::asset('assets/User_image/'.Auth::user()->user_image )}}"
                     @endif
                         alt="Profile picture" style="width: 100%;height: 100%;border: 2px solid white; border-radius: 50%">
                 </a>
@@ -44,12 +44,12 @@
 
     <div class="userData">
         <img 
-                    @if(Auth::user()->image == null)
+                    @if(Auth::user()->user_image  == null)
                     
                     src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                     @else
-                        src="{{URL::asset('assets/User_image/'.Auth::user()->image)}}"
+                        src="{{URL::asset('assets/User_image/'.Auth::user()->user_image )}}"
                     @endif
                         alt="Profile picture" style="width: 20%;height: 100%; border-radius:50%">
 
@@ -70,45 +70,41 @@
     </div>
 
 
-    @if($data != null)
+    @if($posts != null)
         <div class="posts">
-            @php
-                $i = count($data);
-                $j = 0;
-            @endphp
         
-            @foreach ($data as $value)
+            @foreach ($posts as $post)
             <div class="postHead">
                 <img 
-                    @if(Auth::user()->image == null)
+                    @if(Auth::user()->user_image  == null)
                     
                     src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                     @else
-                        src="{{URL::asset('assets/User_image/'.Auth::user()->image)}}"
+                        src="{{URL::asset('assets/User_image/'.Auth::user()->user_image )}}"
                     @endif
                         alt="Profile picture" style="width: 5%;height: 100%;border-radius:50%">
 
                 <p class="PostUser">{{Auth::user()->name}}</p>    
-                <a href="{{route('posts.edit',$value->id)}}"><img src="{{URL::asset('assets/Images/edit.png')}}" class="userEditIcon"></a>
-                <form method="POST" action="{{route('posts.destroy',$value->id)}}">
+                <a href="{{route('posts.edit',$post['post_id'])}}"><img src="{{URL::asset('assets/Images/edit.png')}}" class="userEditIcon"></a>
+                <form method="POST" action="{{route('posts.destroy',$post['post_id'])}}">
                     @csrf
                     @method('Delete')
                     <input style="width: 3%; float: right; " type="image" src="{{URL::asset('assets/Images/delete.png')}}">
                 </form>
 
-                @if ($value->isprivate == 0)
+                @if ($post['isprivate'] == 0)
                     <form method="POST" action="{{route('private')}}">
                         @csrf
                         @method('PUT')
-                        <input type="hidden" name="id" value="{{$value->id}}">
+                        <input type="hidden" name="id" value="{{$post['post_id']}}">
                         <input type="submit" value="Make Private">
                     </form>
                 @else
                     <form method="POST" action="{{route('public')}}">
                         @csrf
                         @method('PUT')
-                        <input type="hidden" name="id" value="{{$value->id}}">
+                        <input type="hidden" name="id" value="{{$post['post_id']}}">
                         <input type="submit" value="Make public">
                     </form>
                 @endif
@@ -117,16 +113,31 @@
                 
             </div>
             <p class="pData"> 
-                @php print_r($value->content);@endphp
+                @php print_r($post['content']);@endphp
             </p>
-            @php
-                $image = $value->image;
-            @endphp
-            @if ($image)
-            <img src="{{ URL::asset('assets/Post_image/'.$image) }}" class="PostPhoto" >
+            
+            @if ($post['post_image'])
+            <img src="{{ URL::asset('assets/Post_image/'.$post['post_image']) }}" class="PostPhoto" >
             @endif
-            @php $j++; @endphp
-                @if ($j != $i)
+            
+                @if ($like == null || in_array($post['post_id'],$like))
+                    <form method="POST" action="{{route('like.store')}}">
+                        @csrf
+                        @method('POST')
+                        <input type="hidden" value="{{$post['post_id']}}" name="post_id">
+                        <input type="submit" value="Like">
+                    </form>
+                @else
+                    <form method="POST" action="{{route('like.destroy',$post['post_id'])}}">
+                        @csrf
+                        @method('Delete')
+                        <input type="hidden" value="{{$post['post_id']}}" name="post_id">
+                        <input type="submit" value="DisLiKe">
+                    </form>
+                @endif
+            
+            
+                @if (!end($posts))
                     <hr>
                 @endif
             @endforeach

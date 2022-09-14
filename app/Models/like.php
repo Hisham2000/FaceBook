@@ -5,17 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class post extends Model
+class like extends Model
 {
     use HasFactory;
-
-    protected $primaryKey = 'post_id';
-    public $autoincrement = true;
+    
+    protected $primaryKey = 'id';
 
     protected $fillable = [
-        'content',
+        'post_id',
         'user_id',
-        'post_image',
+        'like',
     ];
 }
-

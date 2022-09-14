@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\like;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\post;
 use App\Models\relation;
 use Illuminate\Support\Facades\DB;
+use PhpParser\JsonDecoder;
+
 class UserController extends Controller
 {
     /**
@@ -17,40 +20,47 @@ class UserController extends Controller
      */
     public function index()
     {
-        // get all posts that makes public and the owner of the post with his data
         $allData = DB::table('users')->
-        join('posts','posts.user_id', 'users.id')
-        ->where('posts.isprivate',0)
-        ->get();
+        join('relations','relations.user_id','users.id')->
+        join('posts','posts.user_id', 'users.id')->
+        where("posts.isprivate",0)->
+        where("relations.request",1)->
+        get();
 
-        $relation = Relation::all();
+        $likes = like::all()->where('user_id',Auth::user()->id);
+        $likes = json_decode(json_encode($likes),true);
 
         $allData = json_decode(json_encode($allData),true);
-        $relation = json_decode(json_encode($relation),true);
 
-        // match posts with friend data
-        for($j=0; $j<count($relation);$j++)
+        $relatedPosts = array();
+
+
+        $temp = array_unique(array_column($allData, 'id'));
+        $unique_arr = array_intersect_key($allData, $temp);
+        sort($unique_arr);
+        sort($likes);
+        for($i = 0 ; $i<count($unique_arr); $i++)
         {
-            for($i=0 ; $i<count($allData);$i++)
+            if($unique_arr[$i]['friend_id'] == Auth::user()->id || $unique_arr[$i]['user_id'] == Auth::user()->id)
             {
-                if(($allData[$j]['id'] == $relation[$j]['user_id']
-                ||$allData[$j]['id'] == $relation[$j]['friend_id'])
-                && $relation[$j]['request']==1 )
-                {
-                    echo $allData[$j]['content']."<br>";
-                }
+                array_push($relatedPosts,$unique_arr[$i]);
             }
         }
         
-            
+        for($i= 0; $i < count($relatedPosts); $i++)
+        {
+            for($j=0; $j<count($likes); $j++)
+            {
+                if($relatedPosts[$i]['post_id'] == $likes[$j]['post_id'])
+                    array_push($relatedPosts[$i],1);
 
-        echo "<pre>";
-        print_r($allData);
-        echo "</pre>";
+            }
+        }
 
-        echo "<pre>";
-        print_r($relation);
-        echo "</pre>";
+        
+        return view('main',[
+            'posts'=>$relatedPosts,
+        ]);
     }
 
     /**
@@ -140,7 +150,7 @@ class UserController extends Controller
 
             $user->name = $request->name;
             $user->email  = $request->email;
-            $user->image  = $imgName;
+            $user->user_image  = $imgName;
             $user->update();
         }
         else{

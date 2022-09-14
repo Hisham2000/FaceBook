@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RelationController;
 use App\Http\Controllers\UserController;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,10 +25,12 @@ Route::middleware(['auth'])->group(function(){
     Route::get('user/search', [UserController::class,'searching'])->name('search');
     Route::PUT('posts/private', [PostController::class,'makePostPrivate'])->name('private');
     Route::PUT('posts/public', [PostController::class,'makePostPublic'])->name('public');
+    
     Route::resources([
         'user' => UserController::class,
         'posts' => PostController::class,
         'relation' => RelationController::class,
+        'like' => LikeController::class,
     ]);
     
 });

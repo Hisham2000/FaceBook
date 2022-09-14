@@ -8,7 +8,7 @@
 <body>
     <div class="create">
         <h1>Edit post</h1>
-        <form enctype="multipart/form-data" method="POST" action="{{route('posts.update',$post['id'])}}">
+        <form enctype="multipart/form-data" method="POST" action="{{route('posts.update',$post['post_id'])}}">
             @csrf
             @method('PUT')
             <textarea required name="content" placeholder="What is in your Mind">

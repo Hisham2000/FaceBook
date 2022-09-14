@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\like;
 use App\Models\post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,11 +16,15 @@ class PostController extends Controller
      */
     public function index()
     {
-        $userId = Auth::id();
-        $data = array();
-        $jdata = Post::all()->where('user_id',$userId);
-        $data = (array) json_decode($jdata);
-        return view('Profile',['data' =>array_reverse($data)]);
+        $posts = Post::all()->where('user_id',Auth::user()->id);
+        $likes = like::all();
+        $likes = json_decode(json_encode($likes),true);
+        $posts = json_decode(json_encode($posts),true);
+
+        return view('Profile',[
+            'posts' =>array_reverse($posts),
+            'like' => $likes,
+        ]);
     }
 
     /**
@@ -48,7 +53,7 @@ class PostController extends Controller
             Post::create([
                 'content' => $request->content,
                 'user_id' => Auth::user()->id,
-                'image' => $imgName,
+                'post_image' => $imgName,
             ]);
         }
         else{
@@ -105,7 +110,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::all()->where('id',$id)->first();
+        $post = Post::all()->where('post_id',$id)->first();
         $post = json_decode(json_encode($post),true);
         // echo "<pre>";
         // print_r($post);
@@ -129,7 +134,7 @@ class PostController extends Controller
             $imgName = $this->saveImage($request);
 
             $post->content = $request->content;
-            $post->image  = $imgName;
+            $post->post_image  = $imgName;
             $post->update();
         }
         else{

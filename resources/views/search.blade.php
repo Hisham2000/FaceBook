@@ -42,12 +42,12 @@
     <a href="{{ route('user.show',$value->id) }}">
         <div class="userSearch">
             <img 
-                        @if(empty($value->image))
+                        @if(empty($value->user_image))
                     
                         src="{{URL::asset('assets/Images/profile-user.png') }}" 
                             
                         @else
-                            src="{{ URL::asset('assets/User_image/'.$value->image )}}"
+                            src="{{ URL::asset('assets/User_image/'.$value->user_image )}}"
                         @endif
                             alt="Profile picture" style="width: 30%;height: 70%;border: 2px solid white; border-radius: 50%">
             <p class="name">{{$value->name}}</p> <br>
