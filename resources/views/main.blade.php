@@ -38,10 +38,11 @@
         </div>
     </header>
 
-
+    
         <div class="posts">
             
             @foreach ($posts as $post)
+            <a href="{{route('posts.show',$post['post_id'])}}">
             <div class="postHead">
                 <img 
                     @if($post['user_image'] == null)
@@ -90,6 +91,7 @@
                 @if(next($posts)) <hr> @endif
         
         @endforeach
+    </a>
     </div>
 </body>
 </html>

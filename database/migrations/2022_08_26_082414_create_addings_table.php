@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->bigInteger('post_id')->unsigned();
             $table->foreign('post_id')->references('post_id')->on('posts');
-            $table->bigInteger('com_id')->unsigned();
-            $table->foreign('com_id')->references('id')->on('comments');
+            // $table->bigInteger('com_id')->unsigned();
+            // $table->foreign('com_id')->references('id')->on('comments');
             $table->timestamps();
         });
     }

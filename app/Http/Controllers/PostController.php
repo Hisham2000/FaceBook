@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\like;
 use App\Models\post;
+use App\Models\comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -97,9 +99,22 @@ class PostController extends Controller
      * @param  \App\Models\post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(post $post)
+    public function show($post_id)
     {
-        //
+        $post = Post::all()->where('post_id',$post_id)->first();
+        // $comment = Comment::all()->where('post_id',$post_id);
+        $comment = Comment::join('users','users.id','=','comments.user_id')->
+        where("comments.post_id",$post_id)->
+        get();
+        $post = json_decode(json_encode($post),true);
+        $comment = json_decode(json_encode($comment),true);
+        // echo "<pre>";
+        // var_dump($comment);
+        // echo "</pre>";
+        return view('ShowPost',[
+            'post' =>$post,
+            'comments' => $comment,
+        ]);
     }
 
     /**

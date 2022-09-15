@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RelationController;
@@ -31,6 +32,7 @@ Route::middleware(['auth'])->group(function(){
         'posts' => PostController::class,
         'relation' => RelationController::class,
         'like' => LikeController::class,
+        'comment' => CommentController::class,
     ]);
     
 });
