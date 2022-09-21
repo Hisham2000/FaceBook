@@ -83,12 +83,11 @@ class PostController extends Controller
 
     private function getTheLastId(){
         $userId = Auth::id();
-        $data = array();
-        $jdata = Post::all()->where('user_id',$userId);
-        $data = json_decode($jdata);
+        $post = Post::all()->where('user_id',$userId);
+        $post = json_decode(json_encode($post),true);
         $id = null;
-        foreach($data as $value){
-            $id = $value->id + 1;
+        foreach($post as $value){
+            $id = $value['post_id'] + 1;
         }
         return $id;
     }
@@ -172,13 +171,13 @@ class PostController extends Controller
 
     public function makePostPrivate(Request $request)
     {
-        $post = Post::where('user_id',$request->id)->update(['isprivate' => 1]);
+        $post = Post::where('Post_id',$request->id)->update(['isprivate' => 1]);
         return redirect()->route('posts.index');
     }
 
     public function makePostPublic(Request $request)
     {
-        $post = Post::where('user_id',$request->id)->update(['isprivate' => 0]);
+        $post = Post::where('Post_id',$request->id)->update(['isprivate' => 0]);
         return redirect()->route('posts.index');
     }
     /**
@@ -189,7 +188,7 @@ class PostController extends Controller
      */
     public function destroy($postid)
     {
-        $post = Post::query()->where('id',$postid)->delete();
+        $post = Post::query()->where('post_id',$postid)->delete();
         return redirect()->route('posts.index');
     }
 }

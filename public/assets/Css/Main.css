@@ -1,0 +1,50 @@
+nav form span i{
+    padding: 4px;
+    color: rgb(13, 110, 253);
+}
+
+.posts{
+    margin-top: 14%;
+    width: 70%;
+    border:2px solid wheat;
+    border-radius: 20px;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+a:hover{
+    text-decoration: none;
+    color: black;
+    cursor: auto;
+}
+
+.row img{
+    border-radius: 50%;
+}
+
+.row p{
+    font-size: 30px;
+}
+
+.post-image{
+    display: block;
+    margin: auto;
+    width:50%;
+    border-radius: 10%;
+}
+
+.comment{
+    display: inline-block;
+    width: 50%;
+    font-size: 20px;
+    background-color: none;
+    border: 2px solid wheat;
+}
+
+.comment:hover{
+    background-color:rgb(13, 110, 253);
+    color: white;
+}
+
