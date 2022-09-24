@@ -100,16 +100,20 @@ class PostController extends Controller
      */
     public function show($post_id)
     {
-        $post = Post::all()->where('post_id',$post_id)->first();
+        // $post = Post::all()->where('post_id',$post_id)->first();
+        $post = post::join('users','users.id','=','posts.user_id')->
+        where("posts.post_id",$post_id)->
+        get()->first();
         // $comment = Comment::all()->where('post_id',$post_id);
         $comment = Comment::join('users','users.id','=','comments.user_id')->
         where("comments.post_id",$post_id)->
         get();
         $post = json_decode(json_encode($post),true);
         $comment = json_decode(json_encode($comment),true);
-        // echo "<pre>";
-        // var_dump($comment);
-        // echo "</pre>";
+            // echo "<pre>";
+            // var_dump($post);
+            // echo "</pre>";
+
         return view('ShowPost',[
             'post' =>$post,
             'comments' => $comment,

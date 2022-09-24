@@ -1,3 +1,4 @@
+
 nav form span i{
     padding: 4px;
     color: rgb(13, 110, 253);
@@ -10,11 +11,11 @@ nav form span i{
     border-radius: 20px;
 }
 
-a{
+.posts a{
     text-decoration: none;
     color: black;
 }
-a:hover{
+.posts a:hover{
     text-decoration: none;
     color: black;
     cursor: auto;
@@ -41,6 +42,7 @@ a:hover{
     font-size: 20px;
     background-color: none;
     border: 2px solid wheat;
+    cursor: pointer;
 }
 
 .comment:hover{

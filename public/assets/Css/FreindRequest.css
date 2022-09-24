@@ -1,0 +1,25 @@
+nav{
+    height: 70px;
+}
+nav form span i{
+    padding: 4px;
+    color: rgb(13, 110, 253);
+}
+
+
+.container{
+    margin-top: 100px;
+    border: 2px solid wheat;
+    border-radius: 20px;
+    width: 50%;
+}
+
+.big-link{
+    text-decoration: none;
+    color: black;
+}
+
+.big-link:hover{
+    text-decoration: none;
+    color: black;
+}

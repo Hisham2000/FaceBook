@@ -235,7 +235,7 @@ class UserController extends Controller
         {
             $jdata = User::all();
         }
-        $data = json_decode($jdata);
+        $data = json_decode(json_encode($jdata),true);
         return view('search',['data'=>$data]);  
     }
 }
