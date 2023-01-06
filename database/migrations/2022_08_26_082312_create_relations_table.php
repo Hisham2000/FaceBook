@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('relations', function (Blueprint $table) {
             $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->bigInteger('friend_id')->unsigned();
-            $table->foreign('friend_id')->references('id')->on('users');
+            $table->foreign('friend_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->primary(['user_id', 'friend_id']);
             $table->integer('request')->default(0);
             $table->bigInteger('sender')->unsigned();

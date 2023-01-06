@@ -6,7 +6,7 @@
 
     <title>Register</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="{{ URL::asset('assets/Css/EditPost.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('public/assets/Css/EditPost.css')}}" rel="stylesheet">
     
     <script src="https://kit.fontawesome.com/d9b8a6c327.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -73,10 +73,10 @@
                         <img class="img-fluid" style="width: 100%;border-radius: 50%" 
                             @if(Auth::user()->user_image == null)
                     
-                        src="{{URL::asset('assets/Images/profile-user.png') }}" 
+                        src="{{URL::asset('public/assets/Images/profile-user.png') }}" 
                             
                         @else
-                            src="{{URL::asset('assets/User_image/'.Auth::user()->user_image )}}"
+                            src="{{URL::asset('public/assets/User_image/'.Auth::user()->user_image )}}"
                         @endif
                             alt="Profile picture" >
                     </div> 
@@ -108,7 +108,7 @@
                 <textarea name="content" placeholder="What is in your Mind"  id="form18" class="md-textarea form-control" rows="3" required style="font-size: 20px">{{$post['content']}}</textarea>
             </div>
             @if ($post['post_image'] !=null)
-            <img class="img-fluid" src="{{ URL::asset('assets/Post_image/'.$post['post_image']) }}" style="width: 50%; margin:auto; display: block; border-radius: 5%">
+            <img class="img-fluid" src="{{ URL::asset('public/assets/Post_image/'.$post['post_image']) }}" style="width: 50%; margin:auto; display: block; border-radius: 5%">
             @endif
             <div class="input-group col-md-8 mx-auto" style="width: 50%; margin-bottom: 2%;margin-top:2%">
                 <div class="input-group-prepend">

@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('addings', function (Blueprint $table) {
             $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->bigInteger('post_id')->unsigned();
-            $table->foreign('post_id')->references('post_id')->on('posts');
+            $table->foreign('post_id')->references('post_id')->on('posts')->onDelete('cascade')->onUpdate('cascade');
             // $table->bigInteger('com_id')->unsigned();
             // $table->foreign('com_id')->references('id')->on('comments');
             $table->timestamps();

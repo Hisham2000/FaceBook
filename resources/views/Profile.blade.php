@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     
-    <link rel="stylesheet" href="{{URL::asset('assets/Css/Profile.css') }}">
+    <link rel="stylesheet" href="{{URL::asset('public/assets/Css/Profile.css') }}">
     <script src="https://kit.fontawesome.com/d9b8a6c327.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -73,10 +73,10 @@
                                 <img class="img-fluid" style="width: 100%;border-radius: 50%" 
                                     @if(Auth::user()->user_image == null)
                             
-                                src="{{URL::asset('assets/Images/profile-user.png') }}" 
+                                src="{{URL::asset('public/assets/Images/profile-user.png') }}" 
                                     
                                 @else
-                                    src="{{URL::asset('assets/User_image/'.Auth::user()->user_image )}}"
+                                    src="{{URL::asset('public/assets/User_image/'.Auth::user()->user_image )}}"
                                 @endif
                                     alt="Profile picture" >
                             </div> 
@@ -110,10 +110,10 @@
                 <img
                         @if(Auth::user()->user_image  == null)
                         
-                        src="{{URL::asset('assets/Images/profile-user.png') }}" 
+                        src="{{URL::asset('public/assets/Images/profile-user.png') }}" 
                                 
                         @else
-                            src="{{URL::asset('assets/User_image/'.Auth::user()->user_image )}}"
+                            src="{{URL::asset('public/assets/User_image/'.Auth::user()->user_image )}}"
                         @endif
                             alt="Profile picture" style="width: 100%;height: 100%; border-radius:50%">
             </div>
@@ -157,29 +157,12 @@
 
 
     @if($posts != null)
-        <div class="container posts">
-        
-            @foreach ($posts as $post)
-            <div class="row">
-                {{-- <div class="col-sm-2">
-                    <img class="img-fluid"
-                    @if(Auth::user()->user_image  == null)
-                        
-                    src="{{URL::asset('assets/Images/profile-user.png') }}" 
-                    @else
-                        src="{{URL::asset('assets/User_image/'.Auth::user()->user_image )}}"
-                    @endif
-                        alt="Profile picture" style="border-radius:50%">
-                </div> --}}
-                    
-                {{-- <div class="col-sm-5">
-                    <p class="lead">{{Auth::user()->name}}</p>
-                </div> --}}
-                        
-                <div class="col-sm-4 btn">
+    @foreach ($posts as $post)
+        <div class="container posts" style="margin-bottom: 10px">
+            <div class="row">        
+                    <div class="col-sm-4 btn">
                     <a href="{{route('posts.edit',$post['post_id'])}}"><i class="fa-solid fa-pen-to-square"></i></a>
                 </div>
-
                 <div class="col-sm-4 btn">
                     <form method="POST" action="{{route('posts.destroy',$post['post_id'])}}">
                         @csrf
@@ -189,7 +172,6 @@
                         </button>
                     </form>
                 </div>
-                    
                 <div class="col-sm-4 btn">
                     @if ($post['isprivate'] == 0)
                         <form method="POST" action="{{route('private')}}">
@@ -208,36 +190,20 @@
                     @endif
                 </div>
             </div>
-
-            <p class="lead" style="font-size: 25px"> 
-                @php print_r($post['content']);@endphp
-            </p>
-            
-            @if ($post['post_image'])
-            <img src="{{ URL::asset('assets/Post_image/'.$post['post_image']) }}" class="PostPhoto" >
-            @endif
-            
-                {{-- @if ($like == null || in_array($post['post_id'],$like))
-                    <form method="POST" action="{{route('like.store')}}">
-                        @csrf
-                        @method('POST')
-                        <input type="hidden" value="{{$post['post_id']}}" name="post_id">
-                        <input type="submit" value="Like">
-                    </form>
-                @else
-                    <form method="POST" action="{{route('like.destroy',$post['post_id'])}}">
-                        @csrf
-                        @method('Delete')
-                        <input type="hidden" value="{{$post['post_id']}}" name="post_id">
-                        <input type="submit" value="DisLiKe">
-                    </form>
-                @endif --}}
-            
-                @if (next($posts))
-                    <hr>
+            <a href="{{route('posts.show',$post['post_id'])}}" class="main-a">
+                <div>
+                <p class="lead" style="font-size: 25px"> 
+                    @php print_r($post['content']);@endphp
+                </p>
+                
+                @if ($post['post_image'])
+                <img src="{{ URL::asset('public/assets/Post_image/'.$post['post_image']) }}" class="PostPhoto" >
                 @endif
-            @endforeach 
+                </div>
+            </a>
         </div>
+        @endforeach 
     @endif
+    
 </body>
 </html>

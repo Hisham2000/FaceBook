@@ -37,16 +37,4 @@ Route::middleware(['auth'])->group(function(){
     
 });
 
-
-// Route::resource([
-//     'photos' => PhotoController::class,
-//     'posts' => PostController::class,
-// ]);
-// Route::resource('user', UserController::class)
-// ->name('user')->middleware(['auth']);
-
-// Route::get('/dashboard', function () {
-//     return view('profile');
-// })->middleware(['auth'])->name('dashboard');
-
 require __DIR__.'/auth.php';

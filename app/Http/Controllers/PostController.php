@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+
 class PostController extends Controller
 {
     /**
@@ -22,6 +23,12 @@ class PostController extends Controller
         $likes = like::all();
         $likes = json_decode(json_encode($likes),true);
         $posts = json_decode(json_encode($posts),true);
+        // $posts = Post::all();
+        // $posts->user();
+        // $posts = json_decode(json_encode($posts),true);
+        // echo "<pre>";
+        // var_dump($posts);
+        // echo "</pre>";
 
         return view('Profile',[
             'posts' =>array_reverse($posts),
@@ -110,13 +117,22 @@ class PostController extends Controller
         get();
         $post = json_decode(json_encode($post),true);
         $comment = json_decode(json_encode($comment),true);
+        $likes = like::get()->where('post_id',$post_id)->count();
+        
+            // echo "<pre>";
+            // echo $likes;
+            // echo "</pre>";
             // echo "<pre>";
             // var_dump($post);
+            // echo "</pre>";
+            // echo "<pre>";
+            // var_dump($comment);
             // echo "</pre>";
 
         return view('ShowPost',[
             'post' =>$post,
             'comments' => $comment,
+            'likes' => $likes,
         ]);
     }
 

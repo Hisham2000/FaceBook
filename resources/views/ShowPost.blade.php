@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="{{ URL::asset('assets/Css/ShowPost.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('public/assets/Css/ShowPost.css')}}" rel="stylesheet">
     
     <script src="https://kit.fontawesome.com/d9b8a6c327.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -72,10 +72,10 @@
                             <img class="img-fluid" style="width: 100%;border-radius: 50%" 
                                 @if(Auth::user()->user_image == null)
                         
-                            src="{{URL::asset('assets/Images/profile-user.png') }}" 
+                            src="{{URL::asset('public/assets/Images/profile-user.png') }}" 
                                 
                             @else
-                                src="{{URL::asset('assets/User_image/'.Auth::user()->user_image )}}"
+                                src="{{URL::asset('public/assets/User_image/'.Auth::user()->user_image )}}"
                             @endif
                                 alt="Profile picture" >
                         </div> 
@@ -96,19 +96,20 @@
     <div class="container"> 
         <div class="row">
             <img class="img-fluid col-3 col-lg-1 col-md-2"
-                @if(Auth::user()->user_image == null)
-                    src="{{URL::asset('assets/Images/profile-user.png') }}" 
+                @if($post['user_image'] == null)
+                    src="{{URL::asset('public/assets/Images/profile-user.png') }}" 
                 @else
-                    src="{{URL::asset('assets/User_image/'.$post['user_image'])}}"
+                    src="{{URL::asset('public/assets/User_image/'.$post['user_image'])}}"
                 @endif
                     alt="Profile picture" style="width: 5%;height: 100%;border-radius:50%">
             <p class="lead" style="line-height: 50px">{{$post['name']}}</p>    
         </div>
 
         <p class="lead">{{$post['content']}}</p>
-        @if ($post['post_image'])
-            <img src="{{ URL::asset('assets/Post_image/'.$post['post_image']) }}" class="img-fluid post-image" >
+        @if ($post['user_image'])
+            <img src="{{ URL::asset('public/assets/Post_image/'.$post['post_image']) }}" class="img-fluid post-image" >
         @endif
+        <footer class="blockquote-footer">{{$likes}} <cite title="Source Title">Persons make Like on this post</cite></footer>
     </div>
 
     <div class="container" >
@@ -132,10 +133,10 @@
                 @foreach ($comments as $comment )
                 <div class=" row">
                 <img 
-                @if(Auth::user()->user_image == null)
-                    src="{{URL::asset('assets/Images/profile-user.png') }}" 
+                @if($comment['user_image'] == null)
+                    src="{{URL::asset('public/assets/Images/profile-user.png') }}" 
                 @else
-                    src="{{URL::asset('assets/User_image/'.$comment['user_image'])}}"
+                    src="{{URL::asset('public/assets/User_image/'.$comment['user_image'])}}"
                 @endif
                     alt="Profile picture" style="width: 5%;height: 100%;border-radius:50%">
                     <p class="lead" style="line-height: 50px">{{$comment['name']}}</p>

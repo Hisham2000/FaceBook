@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="{{ URL::asset('assets/Css/FreindRequest.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('public/assets/Css/FreindRequest.css')}}" rel="stylesheet">
     
     <script src="https://kit.fontawesome.com/d9b8a6c327.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -73,10 +73,10 @@
                             <img class="img-fluid" style="width: 100%;border-radius: 50%" 
                                 @if(Auth::user()->user_image == null)
                         
-                            src="{{URL::asset('assets/Images/profile-user.png') }}" 
+                            src="{{URL::asset('public/assets/Images/profile-user.png') }}" 
                                 
                             @else
-                                src="{{URL::asset('assets/User_image/'.Auth::user()->user_image )}}"
+                                src="{{URL::asset('public/assets/User_image/'.Auth::user()->user_image )}}"
                             @endif
                                 alt="Profile picture" >
                         </div> 
@@ -102,10 +102,10 @@
                 <img class="img-fluid col-sm-3"
                             @if(empty($friend['user_image']))
                         
-                            src="{{URL::asset('assets/Images/profile-user.png') }}" 
+                            src="{{URL::asset('public/assets/Images/profile-user.png') }}" 
                                 
                             @else
-                                src="{{ URL::asset('assets/User_image/'.$friend['user_image'] )}}"
+                                src="{{ URL::asset('public/assets/User_image/'.$friend['user_image'] )}}"
                             @endif
                                 alt="Profile picture" style="border-radius: 50%">
                 <div>

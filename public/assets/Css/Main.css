@@ -1,3 +1,6 @@
+nav{
+    height: 70px;
+}
 
 nav form span i{
     padding: 4px;
@@ -5,7 +8,7 @@ nav form span i{
 }
 
 .posts{
-    margin-top: 14%;
+    margin-top: 100px;
     width: 70%;
     border:2px solid wheat;
     border-radius: 20px;
